@@ -98,10 +98,13 @@ class FlashNotifier
      * @param  string $level
      * @return $this
      */
-    public function message($message, $level = 'info')
+    public function message($message, $level = 'info', $title=null)
     {
         $this->session->flash('flash_notification.message', $message);
         $this->session->flash('flash_notification.level', $level);
+        if( !empty( $title ) ) {
+            $this->session->flash('flash_notification.title', $title);
+        }
 
         return $this;
     }
@@ -114,6 +117,35 @@ class FlashNotifier
     public function important()
     {
         $this->session->flash('flash_notification.important', true);
+
+        return $this;
+    }
+
+    /**
+     * Add an "notice" flash to the session.
+     *
+     * @param  int $timeout
+     * @return $this
+     */
+    public function notice($timeout=3)
+    {
+        $this->session->flash('flash_notification.notice', true);
+        $this->session->flash('flash_notification.timeout', ($timeout*1000));
+
+        return $this;
+    }
+
+    /**
+     * Add an "notice" flash to the session.
+     *
+     * @param  int $timeout
+     * @return $this
+     */
+    public function sweet($timeout=2)
+    {
+        //"warning", "error", "success" and "info"
+        $this->session->flash('flash_notification.sweet', true);
+        $this->session->flash('flash_notification.timeout', ($timeout*1000));
 
         return $this;
     }
